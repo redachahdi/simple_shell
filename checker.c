@@ -1,9 +1,11 @@
 #include "shell.h"
 
 /**
-* built_check_func - checks if the command is a buildin
-* @arv: array of arguments
-* Return: pointer to function that takes arv and returns void
+* built_check_func - function that checks .
+*
+* @arv: is the array of the arguments
+*
+* Return: is the pointer
 */
 void(*built_check_func(char **arv))(char **arv)
 {
@@ -32,4 +34,3 @@ void(*built_check_func(char **arv))(char **arv)
 	}
 	return (0);
 }
-

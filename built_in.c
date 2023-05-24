@@ -1,8 +1,10 @@
 #include "shell.h"
 
 /**
- * exit_func - exits the shell with or without a return of status n
- * @arv: array of words of the entered line
+ * exit_func - function that exits the shel
+ *
+ * @arv: is the array
+ * Return: is void
  */
 void exit_func(char **arv)
 {
@@ -23,9 +25,10 @@ void exit_func(char **arv)
 }
 
 /**
- * atoi_func - converts a string into an integer
- *@s: pointer to a string
- *Return: the integer
+ * atoi_func - function to converts a string
+ *
+ *@s: is the pointer
+ *Return: is the int
  */
 int atoi_func(char *s)
 {
@@ -50,8 +53,9 @@ int atoi_func(char *s)
 }
 
 /**
- * envir_func - prints the current environment
- * @arv: array of arguments
+ * envir_func - function that prints the envi
+ *
+ * @arv: is the array the arguments
  */
 void envir_func(char **arv __attribute__ ((unused)))
 {
@@ -67,8 +71,10 @@ void envir_func(char **arv __attribute__ ((unused)))
 }
 
 /**
- * set_env_func - Initialize a new environment variable, or modify an existing one
- * @arv: array of entered words
+ * set_env_func - function that initialize the new environment
+ *
+ * @arv: is the array
+ * Return : is void
  */
 void set_env_func(char **arv)
 {
@@ -115,8 +121,10 @@ void set_env_func(char **arv)
 }
 
 /**
- * u_setenv_func - Remove an environment variable
- * @arv: array of entered words
+ * u_setenv_func - function that remove the  environment
+ *
+ * @arv: is the array
+ * Return: is void
  */
 void u_setenv_func(char **arv)
 {
