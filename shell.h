@@ -56,6 +56,7 @@ void (*built_check_func(char **arv))(char **arv);
 int atoi_func(char *s);
 void exit_func(char **arv);
 void envir_func(char **arv);
+void u_setenv_func(char **arv);
 void set_env_func(char **arv);
 void fre_arv_func(char **arv);
 void list_free_func(list_path *head);
