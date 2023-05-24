@@ -1,96 +1,101 @@
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 
 /**
- * main -  is the simple shell
+ * handle_sgn_func - function that checks if Ctrl C is pressed
  *
- * @argc: is the argument count
- * @argv: is the argument value
- *
- * Return: is the the exit value by status
+ * @num_sign: the integer value of the signal
+ * Return: void
  */
-
-int main(__attribute__((unused)) int argc, char **argv)
+void handle_sgn_func(int num_sign)
 {
-	char *input, **cmd;
-	int nombre = 0, etat = 1, ss = 0;
-
-	if (argv[1] != NULL)
-		file_reader(argv[1], argv);
-	signal(SIGINT, handl_sign);
-	while (etat)
+	if (num_sign == SIGINT)
 	{
-		nombre++;
+		puts_func("\n#cisfun$ ");
+	}
+}
+
+/**
+ * handle_end_file - function that handles the end of file
+ *
+ * @len: the return value of the get_line function
+ * @buff: the buffer
+ *
+ * Return: void
+ */
+void handle_end_file(int len, char *buff)
+{
+	(void)buff;
+	if (len == -1)
+	{
 		if (isatty(STDIN_FILENO))
-			prompt();
-		input = getline_func();
-		if (input[0] == '\0')
 		{
-			continue;
+			puts_func("\n");
+			free(buff);
 		}
-		history_func(input);
-		cmd = commod_parse(input);
-		if (strcmp_func((cmd[0], "exit") == 0)
-				{
-				exit_bul_func(cmd, input, argv, nombre);
-				}
-		else if (check_builtin_func(cmd) == 0)
-		{
-			ss = built_hand(cmd, ss);
-			free_all(cmd, input);
-			continue;
-		}
+		exit(0);
+	}
+}
+
+/**
+ * isatty_func - function that checks if the input is coming from a terminal
+ *
+ * Return: void
+ */
+void isatty_func(void)
+{
+	if (isatty(STDIN_FILENO))
+		puts_func("#cisfun$ ");
+}
+
+/**
+ * main - function of the simple Shell
+ *
+ * Return: if 0 is success
+ */
+int main(void)
+{
+	ssize_t len = 0;
+	char *buff = NULL, *val_ue, *pathname, **arv;
+	size_t size = 0;
+	path_link_func *head = NULL;
+	void (*f)(char **);
+
+	signal(SIGINT, handle_sgn_func);
+	while (len != EOF)
+	{
+		isatty_func();
+		len = getline(&buff, &size, stdin);
+		handle_end_file(len, buff);
+		arv = to_split_str_func(buff, " \n");
+		if (!arv || !arv[0])
+			execute(arv);
 		else
 		{
-			ss = check_cmd(cmd, input, nombre, argv);
-
+			val_ue = getenv_func("PATH");
+			head = path_link_func(val_ue);
+			pathname = fil_which_func(arv[0], head);
+			f = built_check_func(arv);
+			if (f)
+			{
+				free(buff);
+				f(arv);
+			}
+			else if (!pathname)
+				execute(arv);
+			else if (pathname)
+			{
+				free(arv[0]);
+				arv[0] = pathname;
+				execute(arv);
+			}
 		}
-		free_all(cmd, input);
 	}
-	return (etat);
-}
-/**
- * check_builtin_func - is the function to check 
- *
- * @cmd:is the command to check
- *
- * Return: if 0 is Succes  if -1 is fail
- */
-int check_builtin_func(char **cmd)
-{
-	bul_t func[] = {
-		{"cd", NULL},
-		{"help", NULL},
-		{"echo", NULL},
-		{"history", NULL},
-		{NULL, NULL}
-	};
-	int k = 0;
-		if (*cmd == NULL)
-	{
-		return (-1);
-	}
-
-	while ((func + k)->command)
-	{
-		if (strcmp_func((cmd[0], (func + k)->command) == 0)
-			return (0);
-		k++;
-	}
-	return (-1);
-}
-/**
- * creat_envi_func -  is function to creat array of enviroment
- * 
- * @envi: is the array
- *
- * Return: is Void
- */
-void creat_envi_func(char **env)
-{
-	int k;
-
-	for (k = 0; environ[k]; k++)
-		env[k] = strdup_func(environ[k]);
-	env[k] = NULL;
+	list_free_func(head);
+	free_arv_func(arv);
+	free(buff);
+	return (0);
 }
 
