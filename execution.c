@@ -2,15 +2,18 @@
 
 
 /**
- * to_split_str_func - splits a string and makes it an array of pointers to words
- * @str: the string to be split
- * @delim: the delimiter
+ * to_split_str_func - function that splits the string
+ *
+ * @str: is the string
+ * @delim: is the delimiter
+ *
  * Return: array of pointers to words
  */
 
 char **to_split_str_func(char *str, const char *delim)
 {
-	int i, wn;
+	int i;
+	int w;
 	char **array;
 	char *token;
 	char *copy;
@@ -34,22 +37,24 @@ char **to_split_str_func(char *str, const char *delim)
 	array[0] = strdup_func(token);
 
 	i = 1;
-	wn = 3;
+	w = 3;
 	while (token)
 	{
 		token = strtok(NULL, delim);
-		array = realloc_func(array, (sizeof(char *) * (wn - 1)), (sizeof(char *) * wn));
+array = realloc_func(array, (sizeof(char *) * (w - 1)), (sizeof(char *) * w));
 		array[i] = strdup_func(token);
 		i++;
-		wn++;
+		w++;
 	}
 	free(copy);
 	return (array);
 }
 
 /**
- * execute - executes a command
- * @argv: array of arguments
+ * execute - function that executes the  command
+ *
+ * @argv: is the array
+ * Return: is void
  */
 
 void execute(char **argv)
@@ -74,11 +79,13 @@ void execute(char **argv)
 }
 
 /**
- * realloc_func - Reallocates memory block
- * @ptr: previous pointer
- * @old_size: old size of previous pointer
- * @new_size: new size for our pointer
- * Return: New resized Pointer
+ * realloc_func - function to reallocates memory
+ *
+ * @ptr: is the previous pointer
+ * @old_size: is the old size of  the pointer
+ * @new_size: is the new size for the pointer
+ *
+ * Return: is the new Pointer
  */
 
 void *realloc_func(void *ptr, unsigned int old_size, unsigned int new_size)
@@ -123,8 +130,10 @@ void *realloc_func(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * fre_arv_func - frees the array of pointers arv
- *@arv: array of pointers
+ * fre_arv_func - function that frees the array
+ *
+ * @arv: is the array of the pointers
+ * Return: is void
  */
 
 void fre_arv_func(char **arv)
