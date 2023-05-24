@@ -83,45 +83,45 @@ void execute(char **argv)
  * Return: New resized Pointer
  */
 
-void *realloc_func(void *ptr, unsigned int o_sz, unsigned int n_sz)
+void *realloc_func(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	char *n;
-	char *o;
+	char *new;
+	char *old;
 
 	unsigned int a;
 
 	if (ptr == NULL)
-		return (malloc(n_sz));
+		return (malloc(new_size));
 
-	if (n_sz == o_sz)
+	if (new_size == old_size)
 		return (ptr);
 
-	if (n_sz == 0 && ptr != NULL)
+	if (new_size == 0 && ptr != NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
 
-	n = malloc(n_sz);
-	o = ptr;
-	if (n == NULL)
+	new = malloc(new_size);
+	old = ptr;
+	if (new == NULL)
 		return (NULL);
 
-	if (n_sz > o_sz)
+	if (new_size > old_size)
 	{
-		for (a = 0; a < o_sz; a++)
-			n[a] = o[a];
+		for (a = 0; a < old_size; a++)
+			new[a] = old[a];
 		free(ptr);
-		for (a = o_sz; a < n_sz; a++)
-			n[a] = '\0';
+		for (a = old_size; a < new_size; a++)
+			new[a] = '\0';
 	}
-	if (n_sz < o_sz)
+	if (new_size < old_size)
 	{
-		for (a = 0; a < n_sz; a++)
-			n[a] = o[a];
+		for (a = 0; a < new_size; a++)
+			new[a] = old[a];
 		free(ptr);
 	}
-	return (n);
+	return (new);
 }
 
 /**

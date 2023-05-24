@@ -1,6 +1,4 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 /**
  * exit_func - function that exits the shell
@@ -37,10 +35,11 @@ void exit_func(char **arv)
 int atoi_func(char *s)
 {
 	int k;
-	int int_r = 0;
+	int int_r;
 	int sign = 1;
 
 	k = 0;
+	int_r = 0;
 	while (!((s[k] >= '0') && (s[k] <= '9')) && (s[k] != '\0'))
 	{
 		if (s[k] == '-')
@@ -114,7 +113,7 @@ void set_env_func(char **arv)
 	if (!environ[a])
 	{
 	  environ[a] = all_func(arv[1], "=", arv[2]);
-	  environ[a + 1] = NULL;
+	  environ[a + 1] = '\0';
 
 	}
 }
@@ -158,40 +157,5 @@ void u_setenv_func(char **arv)
 			}
 		}
 	}
-}
-
-/**
- * built_check_func - function that checks if the command is a built-in
- *
- * @arv: the array of arguments
- * Return: pointer to function that takes arv and returns void
- */
-void (*built_check_func(char **arv))(char **arv)
-{
-	int i, j;
-	struct ourbuild T[] = {
-		{"exit", exit_func},
-		{"env", envir_func},
-		{"setenv", set_env_func},
-		{"unsetenv", u_setenv_func},
-		{NULL, NULL}
-	};
-
-	for (i = 0; T[i].name; i++)
-	{
-		j = 0;
-		if (T[i].name[j] == arv[0][j])
-		{
-			while (arv[0][j])
-			{
-				if (T[i].name[j] != arv[0][j])
-					break;
-				j++;
-			}
-			if (!arv[0][j])
-				return (T[i].func);
-		}
-	}
-	return (NULL);
 }
 

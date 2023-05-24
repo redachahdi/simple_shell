@@ -1,6 +1,4 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 
 /**
@@ -9,9 +7,9 @@
  * @num_sign: the integer value of the signal
  * Return: void
  */
-void handle_sgn_func(int num_sign)
+void handle_sgn_func(int sig_num)
 {
-	if (num_sign == SIGINT)
+	if (sig_num == SIGINT)
 	{
 		puts_func("\n#cisfun$ ");
 	}
@@ -58,9 +56,9 @@ void isatty_func(void)
 int main(void)
 {
 	ssize_t len = 0;
-	char *buff = NULL, *val_ue, *pathname, **arv;
+	char *buff = NULL, *value, *pathname, **arv;
 	size_t size = 0;
-	list_path *head = NULL;
+	list_path *head = '\0';
 	void (*f)(char **);
 
 	signal(SIGINT, handle_sgn_func);
@@ -74,8 +72,8 @@ int main(void)
 			execute(arv);
 		else
 		{
-			val_ue = get_env_func("PATH");
-			head = linkpath(val_ue);
+			value = get_env_func("PATH");
+			head = linkpath(value);
 			pathname = fil_which_func(arv[0], head);
 			f = built_chek_func(arv);
 			if (f)

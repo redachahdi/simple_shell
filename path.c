@@ -27,7 +27,7 @@ char *get_env_func(const char *name)
 				b++;
 			}
 			if (name[b] == '\0')
-			{
+{
 				value = (environ[a] + b + 1);
 				return (value);
 			}
@@ -59,7 +59,7 @@ list_path *add_node_end_func(list_path **head, char *str)
 
 	new->dir = str;
 
-	new->p = NULL;
+	new->p = '\0';
 	if (!*head)
 	{
 		*head = new;
@@ -88,7 +88,7 @@ list_path *add_node_end_func(list_path **head, char *str)
  */
 list_path *linkpath(char *path)
 {
-	list_path *head = NULL;
+	list_path *head = '\0';
 	char *token;
 	char *cpath = strdup_func(path);
 

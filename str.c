@@ -10,7 +10,7 @@ char *strdup_func(char *str)
 {
         int a;
         int b;
-	char *n;
+	char *new;
 
 	if (!str)
 	{
@@ -20,17 +20,17 @@ char *strdup_func(char *str)
 	{
 		b++;
 	}
-	n = malloc(sizeof(char) * b + 1);
-	if (!n)
+	new = malloc(sizeof(char) * b + 1);
+	if (!new)
 	{
 		return (NULL);
 	}
 	for (a = 0; a < b; a++)
 	{
-		n[a] = str[a];
+		new[a] = str[a];
 	}
-	n[b] = str[b];
-	return (n);
+	new[b] = str[b];
+	return (new);
 }
 
 /**
@@ -42,7 +42,7 @@ char *strdup_func(char *str)
  */
 char *all_func(char *name, char *sep, char *value)
 {
-	char *r;
+	char *result;
 	int a1;
 	int a2;
 	int a3;
@@ -53,25 +53,25 @@ char *all_func(char *name, char *sep, char *value)
 	a2 = strlen_func(sep);
 	a3 = strlen_func(value);
 
-	r = malloc(a1 + a2 + a3 + 1);
-	if (!r)
+	result = malloc(a1 + a2 + a3 + 1);
+	if (!result)
 		return (NULL);
 
 	for (b = 0; name[b]; b++)
-		r[b] = name[b];
+		result[b] = name[b];
 	c = b;
 
 	for (b = 0; sep[b]; b++)
-		r[c + b] = sep[b];
+		result[c + b] = sep[b];
 	c = c + b;
 
 	for (b = 0; value[b]; b++)
-		r[c + b] = value[b];
+		result[c + b] = value[b];
 	c = c + b;
 
-	r[b] = '\0';
+	result[b] = '\0';
 
-	return (r);
+	return (result);
 }
 
 /**
