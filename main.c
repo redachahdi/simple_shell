@@ -1,10 +1,12 @@
 #include "shell.h"
 
 /**
- * sig_handler - checks if Ctrl C is pressed
- * @sig_num: int
+ * _sig_handler - function that checks if Ctrl C is pressed
+ *
+ * @sig_num: is the int
+ * return: is void
  */
-void sig_handler(int sig_num)
+void _sig_handler(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
@@ -13,12 +15,16 @@ void sig_handler(int sig_num)
 }
 
 /**
-* _EOF - handles the End of File
-* @len: return value of getline function
-* @buff: buffer
+ * _EOF_ - is the functions that handles the End of file
+ *
+ * @len: that return value of the getline function
+ * @buff: is the buffer
+ *
+ * return: is void
  */
-void _EOF(int len, char *buff)
+void _EOF_(int len, char *buff)
 {
+
 	(void)buff;
 	if (len == -1)
 	{
@@ -31,8 +37,9 @@ void _EOF(int len, char *buff)
 	}
 }
 /**
-  * _isatty - verif if terminal
-  */
+ * _isatty - function that verif if terminal
+ * Return: is void
+ */
 
 void _isatty(void)
 {
@@ -40,7 +47,7 @@ void _isatty(void)
 		puts_func("#cisfun$ ");
 }
 /**
- * main - Shell
+ * main - functui of the Shell
  * Return: 0 on success
  */
 
@@ -52,12 +59,12 @@ int main(void)
 	list_path *head = '\0';
 	void (*f)(char **);
 
-	signal(SIGINT, sig_handler);
+	signal(SIGINT, _sig_handler);
 	while (len != EOF)
 	{
 		_isatty();
 		len = getline(&buff, &size, stdin);
-		_EOF(len, buff);
+		_EOF_(len, buff);
 		arv = to_split_str_func(buff, " \n");
 		if (!arv || !arv[0])
 			execute(arv);

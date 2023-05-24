@@ -2,9 +2,10 @@
 
 
 /**
- * get_env_func - gets the value of the global variable
- * @name: name of the global variable
- * Return: string of value
+ * get_env_func - function that gets the value variable
+ *
+ * @name: is the name of the global variable
+ * Return: is the string of value
  */
 char *get_env_func(const char *name)
 {
@@ -37,10 +38,12 @@ char *get_env_func(const char *name)
 
 
 /**
- * add_node_end_func - adds a new node at the end of a list_t list
- * @head: pointer to pointer to our linked list
- * @str: pointer to string in previous first node
- * Return: address of the new element/node
+ * add_node_end_func - function that adds a new nod
+ *
+ * @head: is the pointer
+ * @str: is the pointer
+ *
+ * Return: is the address of the new element
  */
 
 list_path *add_node_end_func(list_path **head, char *str)
@@ -81,9 +84,10 @@ list_path *add_node_end_func(list_path **head, char *str)
 
 
 /**
- * linkpath - creates a linked list for path directories
- * @path: string of path value
- * Return: pointer to the created linked list
+ * linkpath - function that creates the linked list
+ *
+ * @path: is the string of path value
+ * Return: is the pointer
  */
 list_path *linkpath(char *path)
 {
@@ -102,9 +106,11 @@ list_path *linkpath(char *path)
 }
 
 /**
- * fil_which_func - finds the pathname of a filename
- * @filename: name of file or command
- * @head: head of linked list of path directories
+ * fil_which_func - function that finds the pathname
+ *
+ * @filename: is the name of file or command
+ * @head: head of linked list of path directorie
+ *
  * Return: pathname of filename or NULL if no match
  */
 char *fil_which_func(char *filename, list_path *head)
