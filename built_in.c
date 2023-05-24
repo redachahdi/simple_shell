@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,17 +11,18 @@
 void exit_func(char **arv)
 {
 	int b;
+	int k;
 
 	if (arv[1])
 	{
 		b = atoi_func(arv[1]);
 		if (b <= -1)
 			b = 2;
-		freearv(arv);
+		fre_arv_func(arv);
 		exit(b);
 	}
 
-	for (int k = 0; arv[k]; k++)
+	for (k = 0; arv[k]; k++)
 		free(arv[k]);
 	free(arv);
 	exit(0);
@@ -81,7 +82,7 @@ void set_env_func(char **arv)
 
 	if (!arv[1] || !arv[2])
 	{
-		perror(getenv_func("_"));
+		perror(get_env_func("_"));
 		return;
 	}
 
@@ -132,7 +133,7 @@ void u_setenv_func(char **arv)
 
 	if (!arv[1])
 	{
-		perror(getenv_func("_"));
+		perror(get_env_func("_"));
 		return;
 	}
 	for (a = 0; environ[a]; a++)

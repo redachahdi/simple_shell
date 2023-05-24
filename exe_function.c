@@ -1,199 +1,140 @@
-#include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "main.h"
+
 
 /**
- * exit_func - function that exits the shell
- *
- * @arv: array of words of the entered line
- * Return: void
+ * splitstring - splits a string and makes it an array of pointers to words
+ * @str: the string to be split
+ * @delim: the delimiter
+ * Return: array of pointers to words
  */
-void exit_func(char **arv)
-{
-	int k, b;
 
-	if (arv[1])
+char **to_split_str_func(char *str, const char *delim)
+{
+	int a;
+	int bb;
+	char **array;
+	char *token;
+	char *copy;
+
+	copy = malloc(strlen_func(str) + 1);
+	if (copy == NULL)
 	{
-		b = atoi_func(arv[1]);
-		if (b <= -1)
-			b = 2;
-		freearv(arv);
-		exit(b);
+		perror(get_env_func("_"));
+		return (NULL);
 	}
-	for (k = 0; arv[k]; k++)
-		free(arv[k]);
+	a = 0;
+	while (str[a])
+	{
+		copy[a] = str[a];
+		a++;
+	}
+	copy[a] = '\0';
+
+	token = strtok(copy, delim);
+	array = malloc((sizeof(char *) * 2));
+	array[0] = strdup_func(token);
+
+	a = 1;
+	bb = 3;
+	while (token)
+	{
+		token = strtok(NULL, delim);
+		array = realloc_func(array, (sizeof(char *) * (bb - 1)), (sizeof(char *) * bb));
+		array[a] = strdup_func(token);
+		a++;
+		bb++;
+	}
+	free(copy);
+	return (array);
+}
+
+/**
+ * execute - executes a command
+ * @argv: array of arguments
+ */
+
+void execute(char **argv)
+{
+
+	int e;
+	int status;
+
+	if (!argv || !argv[0])
+		return;
+	e = fork();
+	if (e == -1)
+	{
+		perror(get_env_func("_"));
+	}
+	if (e == 0)
+	{
+		execve(argv[0], argv, environ);
+			perror(argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	wait(&status);
+}
+
+/**
+ * _realloc - Reallocates memory block
+ * @ptr: previous pointer
+ * @old_size: old size of previous pointer
+ * @new_size: new size for our pointer
+ * Return: New resized Pointer
+ */
+
+void *realloc_func(void *ptr, unsigned int o_sz, unsigned int n_sz)
+{
+	char *n;
+	char *o;
+
+	unsigned int a;
+
+	if (ptr == NULL)
+		return (malloc(n_sz));
+
+	if (n_sz == o_sz)
+		return (ptr);
+
+	if (n_sz == 0 && ptr != NULL)
+	{
+		free(ptr);
+		return (NULL);
+	}
+
+	n = malloc(n_sz);
+	o = ptr;
+	if (n == NULL)
+		return (NULL);
+
+	if (n_sz > o_sz)
+	{
+		for (a = 0; a < o_sz; a++)
+			n[a] = o[a];
+		free(ptr);
+		for (a = o_sz; a < n_sz; a++)
+			n[a] = '\0';
+	}
+	if (n_sz < o_sz)
+	{
+		for (a = 0; a < n_sz; a++)
+			n[a] = o[a];
+		free(ptr);
+	}
+	return (n);
+}
+
+/**
+ * freearv - frees the array of pointers arv
+ *@arv: array of pointers
+ */
+
+void fre_arv_func(char **arv)
+{
+	int a;
+
+	for (a = 0; arv[a]; a++)
+		free(arv[a]);
 	free(arv);
-	exit(0);
 }
 
-/**
- * atoi_func - function that converts the string into an integer
- *
- * @s: the pointer to the string
- * Return: the converted integer
- */
-int atoi_func(char *s)
-{
-	int k;
-	int int_r = 0;
-	int sign = 1;
-
-	k = 0;
-	while (!((s[k] >= '0') && (s[k] <= '9')) && (s[k] != '\0'))
-	{
-		if (s[k] == '-')
-		{
-			sign = sign * (-1);
-		}
-		k++;
-	}
-	while ((s[k] >= '0') && (s[k] <= '9'))
-	{
-		int_r = (int_r * 10) + (sign * (s[k] - '0'));
-		k++;
-	}
-	return int_r;
-}
-
-/**
- * envir_func - function that prints the environment
- *
- * @arv: the array
- */
-void envir_func(char **arv __attribute__ ((unused)))
-{
-	int k;
-
-	for (k = 0; environ[k]; k++)
-	{
-		puts_func(environ[k]);
-		puts_func("\n");
-	}
-}
-
-/**
- * set_env_func - function that sets a new environment variable
- *
- * @arv: the array
- */
-void set_env_func(char **arv)
-{
-	int a, b, c;
-
-	if (!arv[1] || !arv[2])
-	{
-		perror(getenv_func("_"));
-		return;
-	}
-
-	for (a = 0; environ[a]; a++)
-	{
-		b = 0;
-		if (arv[1][b] == environ[a][b])
-		{
-			while (arv[1][b])
-			{
-				if (arv[1][b] != environ[a][b])
-					break;
-
-				b++;
-			}
-			if (arv[1][b] == '\0')
-			{
-				c = 0;
-				while (arv[2][c])
-				{
-					environ[a][b + 1 + c] = arv[2][c];
-					c++;
-				}
-				environ[a][b + 1 + c] = '\0';
-				return;
-			}
-		}
-	}
-	if (!environ[a])
-	{
-		environ[a] = malloc(sizeof(char) * (strlen(arv[1]) + strlen(arv[2]) + 2));
-		if (environ[a] == NULL)
-			return;
-
-		sprintf(environ[a], "%s=%s", arv[1], arv[2]);
-		environ[a + 1] = NULL;
-	}
-}
-
-/**
- * u_setenv_func - function that removes an environment variable
- *
- * @arv: the array
- */
-void u_setenv_func(char **arv)
-{
-	int a, b;
-
-	if (!arv[1])
-	{
-		perror(getenv_func("_"));
-		return;
-	}
-	for (a = 0; environ[a]; a++)
-	{
-		b = 0;
-		if (arv[1][b] == environ[a][b])
-		{
-			while (arv[1][b])
-			{
-				if (arv[1][b] != environ[a][b])
-					break;
-
-				b++;
-			}
-			if (arv[1][b] == '\0')
-			{
-				free(environ[a]);
-				environ[a] = environ[a + 1];
-				while (environ[a])
-				{
-					environ[a] = environ[a + 1];
-					a++;
-				}
-				return;
-			}
-		}
-	}
-}
-
-/**
- * built_check_func - function that checks if the command is a built-in
- *
- * @arv: the array of arguments
- * Return: pointer to function that takes arv and returns void
- */
-void (*built_check_func(char **arv))(char **arv)
-{
-	int i, j;
-	struct ourbuild T[] = {
-		{"exit", exit_func},
-		{"env", envir_func},
-		{"setenv", set_env_func},
-		{"unsetenv", u_setenv_func},
-		{NULL, NULL}
-	};
-
-	for (i = 0; T[i].name; i++)
-	{
-		j = 0;
-		if (T[i].name[j] == arv[0][j])
-		{
-			while (arv[0][j])
-			{
-				if (T[i].name[j] != arv[0][j])
-					break;
-				j++;
-			}
-			if (!arv[0][j])
-				return T[i].func;
-		}
-	}
-	return NULL;
-}

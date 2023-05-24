@@ -1,200 +1,149 @@
-#include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "main.h"
+
 
 /**
- * exit_func - function that exits the shell
- *
- * @arv: array of words of the entered line
- * Return: void
+ * _getenv - gets the value of the global variable
+ * @name: name of the global variable
+ * Return: string of value
  */
-void exit_func(char **arv)
+char *get_env_func(const char *name)
 {
-	int k, b;
+        int a;
+	int b;
+	char *value;
 
-	if (arv[1])
-	{
-		b = atoi_func(arv[1]);
-		if (b <= -1)
-			b = 2;
-		freearv(arv);
-		exit(b);
-	}
-	for (k = 0; arv[k]; k++)
-		free(arv[k]);
-	free(arv);
-	exit(0);
-}
-
-/**
- * atoi_func - function that converts the string into an integer
- *
- * @s: the pointer to the string
- * Return: the converted integer
- */
-int atoi_func(char *s)
-{
-	int k;
-	int int_r = 0;
-	int sign = 1;
-
-	k = 0;
-	while (!((s[k] >= '0') && (s[k] <= '9')) && (s[k] != '\0'))
-	{
-		if (s[k] == '-')
-		{
-			sign = sign * (-1);
-		}
-		k++;
-	}
-	while ((s[k] >= '0') && (s[k] <= '9'))
-	{
-		int_r = (int_r * 10) + (sign * (s[k] - '0'));
-		k++;
-	}
-	return int_r;
-}
-
-/**
- * envir_func - function that prints the environment
- *
- * @arv: the array
- */
-void envir_func(char **arv __attribute__ ((unused)))
-{
-	int k;
-
-	for (k = 0; environ[k]; k++)
-	{
-		puts_func(environ[k]);
-		puts_func("\n");
-	}
-}
-
-/**
- * set_env_func - function that sets a new environment variable
- *
- * @arv: the array
- */
-void set_env_func(char **arv)
-{
-	int a, b, c;
-
-	if (!arv[1] || !arv[2])
-	{
-		perror(getenv_func("_"));
-		return;
-	}
-
+	if (!name)
+		return (NULL);
 	for (a = 0; environ[a]; a++)
 	{
 		b = 0;
-		if (arv[1][b] == environ[a][b])
+		if (name[b] == environ[a][b])
 		{
-			while (arv[1][b])
+			while (name[b])
 			{
-				if (arv[1][b] != environ[a][b])
+				if (name[b] != environ[a][b])
 					break;
 
 				b++;
 			}
-			if (arv[1][b] == '\0')
+			if (name[b] == '\0')
 			{
-				c = 0;
-				while (arv[2][c])
-				{
-					environ[a][b + 1 + c] = arv[2][c];
-					c++;
-				}
-				environ[a][b + 1 + c] = '\0';
-				return;
+				value = (environ[a] + b + 1);
+				return (value);
 			}
 		}
 	}
-	if (!environ[a])
-	{
-		environ[a] = malloc(sizeof(char) * (strlen(arv[1]) + strlen(arv[2]) + 2));
-		if (environ[a] == NULL)
-			return;
+	return (0);
+}
 
-		sprintf(environ[a], "%s=%s", arv[1], arv[2]);
-		environ[a + 1] = NULL;
+
+/**
+ * add_node_end - adds a new node at the end of a list_t list
+ * @head: pointer to pointer to our linked list
+ * @str: pointer to string in previous first node
+ * Return: address of the new element/node
+ */
+
+list_path *add_node_end_func(list_path **head, char *str)
+{
+
+	list_path *tmp;
+	list_path *new;
+
+	new = malloc(sizeof(list_path));
+
+	if (!new || !str)
+	{
+		return (NULL);
 	}
+
+	new->dir = str;
+
+	new->p = NULL;
+	if (!*head)
+	{
+		*head = new;
+	}
+	else
+	{
+		tmp = *head;
+
+		while (tmp->p)
+		{
+
+			tmp = tmp->p;
+		}
+
+		tmp->p = new;
+	}
+
+	return (*head);
+}
+
+
+/**
+ * linkpath - creates a linked list for path directories
+ * @path: string of path value
+ * Return: pointer to the created linked list
+ */
+list_path *linkpath(char *path)
+{
+	list_path *head = NULL;
+	char *token;
+	char *cpath = strdup_func(path);
+
+	token = strtok(cpath, ":");
+	while (token)
+	{
+		head = add_node_end_func(&head, token);
+		token = strtok(NULL, ":");
+	}
+
+	return (head);
 }
 
 /**
- * u_setenv_func - function that removes an environment variable
- *
- * @arv: the array
+ * _which - finds the pathname of a filename
+ * @filename: name of file or command
+ * @head: head of linked list of path directories
+ * Return: pathname of filename or NULL if no match
  */
-void u_setenv_func(char **arv)
+char *fil_which_func(char *filename, list_path *head)
 {
-	int a, b;
+	struct stat st;
+	char *string;
 
-	if (!arv[1])
+	list_path *tmp = head;
+
+	while (tmp)
 	{
-		perror(getenv_func("_"));
-		return;
-	}
-	for (a = 0; environ[a]; a++)
-	{
-		b = 0;
-		if (arv[1][b] == environ[a][b])
+
+		string = all_func(tmp->dir, "/", filename);
+		if (stat(string, &st) == 0)
 		{
-			while (arv[1][b])
-			{
-				if (arv[1][b] != environ[a][b])
-					break;
-
-				b++;
-			}
-			if (arv[1][b] == '\0')
-			{
-				free(environ[a]);
-				environ[a] = environ[a + 1];
-				while (environ[a])
-				{
-					environ[a] = environ[a + 1];
-					a++;
-				}
-				return;
-			}
+			return (string);
 		}
+		free(string);
+		tmp = tmp->p;
 	}
+
+	return (NULL);
 }
 
 /**
- * built_check_func - function that checks if the command is a built-in
- *
- * @arv: the array of arguments
- * Return: pointer to function that takes arv and returns void
+ * free_list - frees a list_t
+ *@head: pointer to our linked list
  */
-void (*built_check_func(char **arv))(char **arv)
+void list_free_func(list_path *head)
 {
-	int i, j;
-	struct ourbuild T[] = {
-		{"exit", exit_func},
-		{"env", envir_func},
-		{"setenv", set_env_func},
-		{"unsetenv", u_setenv_func},
-		{NULL, NULL}
-	};
+	list_path *storage;
 
-	for (i = 0; T[i].name; i++)
+	while (head)
 	{
-		j = 0;
-		if (T[i].name[j] == arv[0][j])
-		{
-			while (arv[0][j])
-			{
-				if (T[i].name[j] != arv[0][j])
-					break;
-				j++;
-			}
-			if (!arv[0][j])
-				return T[i].func;
-		}
+		storage = head->p;
+		free(head->dir);
+		free(head);
+		head = storage;
 	}
-	return NULL;
-}
 
+}

@@ -14,6 +14,7 @@
 #include <signal.h>
 
 extern char **environ;
+void puts_func(char *str);
 void exit_func(char **arv);
 int atoi_func(char *s);
 void envir_func(char **arv __attribute__ ((unused)));
@@ -28,7 +29,7 @@ char *get_env_func(const char *name);
 
 
 /**
- * struct list_path - function thatLinked list containing PATH directories
+ * struct path_link_func - function thatLinked list containing PATH directories
  *
  * @dir: is the directory in path
  * @p: is the pointer to next node
@@ -41,10 +42,12 @@ typedef struct list_path
 
 list_path *add_node_end_func(list_path **head, char *str);
 list_path *linkpath(char *path);
-char *fil_which_func(char *filename, linkpath *head);
-void list_free_func(linkpath *head);
+char *fil_which_func(char *filename, list_path *head);
+void list_free_func(list_path *head);
 char *strdup_func(char *str);
 char *all_func(char *name, char *sep, char *value);
+char **splitstring(char *str, const char *delim);
+void execute(char **argv);
 int strlen_func(char *s);
 int _putchar(char c);
 void handle_sgn_func(int num_sign);

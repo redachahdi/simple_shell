@@ -60,7 +60,7 @@ int main(void)
 	ssize_t len = 0;
 	char *buff = NULL, *val_ue, *pathname, **arv;
 	size_t size = 0;
-	path_link_func *head = NULL;
+	list_path *head = NULL;
 	void (*f)(char **);
 
 	signal(SIGINT, handle_sgn_func);
@@ -74,10 +74,10 @@ int main(void)
 			execute(arv);
 		else
 		{
-			val_ue = getenv_func("PATH");
-			head = path_link_func(val_ue);
+			val_ue = get_env_func("PATH");
+			head = linkpath(val_ue);
 			pathname = fil_which_func(arv[0], head);
-			f = built_check_func(arv);
+			f = built_chek_func(arv);
 			if (f)
 			{
 				free(buff);
@@ -94,7 +94,7 @@ int main(void)
 		}
 	}
 	list_free_func(head);
-	free_arv_func(arv);
+	fre_arv_func(arv);
 	free(buff);
 	return (0);
 }
