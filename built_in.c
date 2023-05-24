@@ -113,12 +113,9 @@ void set_env_func(char **arv)
 	}
 	if (!environ[a])
 	{
-		environ[a] = malloc(sizeof(char) * (strlen(arv[1]) + strlen(arv[2]) + 2));
-		if (environ[a] == NULL)
-			return;
+	  environ[a] = all_func(arv[1], "=", arv[2]);
+	  environ[a + 1] = NULL;
 
-		sprintf(environ[a], "%s=%s", arv[1], arv[2]);
-		environ[a + 1] = NULL;
 	}
 }
 
