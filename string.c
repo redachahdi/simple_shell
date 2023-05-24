@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
- * strdup_func - returns a pointer to a newly allocated space in memory, which
- * contains a copy of the string given as a parameter
- * @str: pointer to a string
- * Return: pointer to a string
+ * strdup_func - function returns a pointer to a newly allocated space
+ *
+ * @str: is a pointer to a string
+ * Return: new
  */
 char *strdup_func(char *str)
 {
@@ -33,11 +33,11 @@ char *strdup_func(char *str)
 }
 
 /**
- * all_func - concats 3 strings in a newly allocated memory
+ * all_func - function 3 strings in a newly allocated memory
  * @name: first string
  * @sep: second string
  * @value: Third string
- * Return: pointer to the new string
+ * Return: result
  */
 char *all_func(char *name, char *sep, char *value)
 {
@@ -70,9 +70,9 @@ char *all_func(char *name, char *sep, char *value)
 }
 
 /**
- * strlen_func - it gives the length of a string
+ * strlen_func - function gives the length of a string
  * @s: pointer to the string
- * Return: the length of string
+ * Return: i
  */
 int strlen_func(char *s)
 {
@@ -86,7 +86,7 @@ int strlen_func(char *s)
 }
 
 /**
- * _putchar - writes the character c to stdout
+ * _putchar - function writes the character c to stdout
  * @c: The character to print
  *
  * Return: On success 1.
@@ -98,8 +98,9 @@ int _putchar(char c)
 }
 
 /**
- * _puts - prints a string
+ * puts_func - function prints a string
  * @str: pointer to string
+ * return: 0
  */
 
 void puts_func(char *str)
