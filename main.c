@@ -1,13 +1,10 @@
-#include "main.h"
-
+#include "shell.h"
 
 /**
- * handle_sgn_func - function that checks if Ctrl C is pressed
- *
- * @num_sign: the integer value of the signal
- * Return: void
+ * sig_handler - checks if Ctrl C is pressed
+ * @sig_num: int
  */
-void handle_sgn_func(int sig_num)
+void sig_handler(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
@@ -16,14 +13,11 @@ void handle_sgn_func(int sig_num)
 }
 
 /**
- * handle_end_file - function that handles the end of file
- *
- * @len: the return value of the get_line function
- * @buff: the buffer
- *
- * Return: void
+* _EOF - handles the End of File
+* @len: return value of getline function
+* @buff: buffer
  */
-void handle_end_file(int len, char *buff)
+void _EOF(int len, char *buff)
 {
 	(void)buff;
 	if (len == -1)
@@ -36,23 +30,20 @@ void handle_end_file(int len, char *buff)
 		exit(0);
 	}
 }
-
 /**
- * isatty_func - function that checks if the input is coming from a terminal
- *
- * Return: void
- */
-void isatty_func(void)
+  * _isatty - verif if terminal
+  */
+
+void _isatty(void)
 {
 	if (isatty(STDIN_FILENO))
 		puts_func("#cisfun$ ");
 }
-
 /**
- * main - function of the simple Shell
- *
- * Return: if 0 is success
+ * main - Shell
+ * Return: 0 on success
  */
+
 int main(void)
 {
 	ssize_t len = 0;
@@ -61,12 +52,12 @@ int main(void)
 	list_path *head = '\0';
 	void (*f)(char **);
 
-	signal(SIGINT, handle_sgn_func);
+	signal(SIGINT, sig_handler);
 	while (len != EOF)
 	{
-		isatty_func();
+		_isatty();
 		len = getline(&buff, &size, stdin);
-		handle_end_file(len, buff);
+		_EOF(len, buff);
 		arv = to_split_str_func(buff, " \n");
 		if (!arv || !arv[0])
 			execute(arv);
@@ -75,7 +66,7 @@ int main(void)
 			value = get_env_func("PATH");
 			head = linkpath(value);
 			pathname = fil_which_func(arv[0], head);
-			f = built_chek_func(arv);
+			f = built_check_func(arv);
 			if (f)
 			{
 				free(buff);
@@ -96,4 +87,3 @@ int main(void)
 	free(buff);
 	return (0);
 }
-

@@ -1,15 +1,14 @@
-#include "main.h"
+#include "shell.h"
 
 /**
-* checkbuild - checks if the command is a buildin
+* built_check_func - checks if the command is a buildin
 * @arv: array of arguments
 * Return: pointer to function that takes arv and returns void
 */
-void(*built_chek_func(char **arv))(char **arv)
+void(*built_check_func(char **arv))(char **arv)
 {
-	int a;
-	int b;
-	ourbuild M[] = {
+	int i, j;
+	ourbuild T[] = {
 		{"exit", exit_func},
 		{"env", envir_func},
 		{"setenv", set_env_func},
@@ -17,18 +16,18 @@ void(*built_chek_func(char **arv))(char **arv)
 		{NULL, NULL}
 	};
 
-	for (a = 0; M[a].name; a++)
+	for (i = 0; T[i].name; i++)
 	{
-		b = 0;
-		if (M[a].name[b] == arv[0][b])
+		j = 0;
+		if (T[i].name[j] == arv[0][j])
 		{
-			for (b = 0; arv[0][b]; b++)
+			for (j = 0; arv[0][j]; j++)
 			{
-				if (M[a].name[b] != arv[0][b])
+				if (T[i].name[j] != arv[0][j])
 					break;
 			}
-			if (!arv[0][b])
-				return (M[a].func);
+			if (!arv[0][j])
+				return (T[i].func);
 		}
 	}
 	return (0);

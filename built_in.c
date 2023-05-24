@@ -1,83 +1,78 @@
-#include "main.h"
+#include "shell.h"
 
 /**
- * exit_func - function that exits the shell
- *
+ * exit_func - exits the shell with or without a return of status n
  * @arv: array of words of the entered line
- * Return: void
  */
 void exit_func(char **arv)
 {
-	int b;
-	int k;
+	int i, n;
 
 	if (arv[1])
 	{
-		b = atoi_func(arv[1]);
-		if (b <= -1)
-			b = 2;
+		n = atoi_func(arv[1]);
+		if (n <= -1)
+			n = 2;
 		fre_arv_func(arv);
-		exit(b);
+		exit(n);
 	}
-
-	for (k = 0; arv[k]; k++)
-		free(arv[k]);
+	for (i = 0; arv[i]; i++)
+		free(arv[i]);
 	free(arv);
 	exit(0);
 }
 
 /**
- * atoi_func - function that converts the string into an integer
- *
- * @s: the pointer to the string
- * Return: the converted integer
+ * atoi_func - converts a string into an integer
+ *@s: pointer to a string
+ *Return: the integer
  */
 int atoi_func(char *s)
 {
-	int k;
-	int int_r;
-	int sign = 1;
+	int i, integer, sign = 1;
 
-	k = 0;
-	int_r = 0;
-	while (!((s[k] >= '0') && (s[k] <= '9')) && (s[k] != '\0'))
+	i = 0;
+	integer = 0;
+	while (!((s[i] >= '0') && (s[i] <= '9')) && (s[i] != '\0'))
 	{
-		if (s[k] == '-')
+		if (s[i] == '-')
+		{
 			sign = sign * (-1);
-		k++;
+		}
+		i++;
 	}
-	while ((s[k] >= '0') && (s[k] <= '9'))
+	while ((s[i] >= '0') && (s[i] <= '9'))
 	{
-		int_r = (int_r * 10) + (sign * (s[k] - '0'));
-		k++;
+		integer = (integer * 10) + (sign * (s[i] - '0'));
+		i++;
 	}
-	return (int_r);
+	return (integer);
 }
 
 /**
- * envir_func - function that prints the environment
- *
- * @arv: the array
+ * envir_func - prints the current environment
+ * @arv: array of arguments
  */
 void envir_func(char **arv __attribute__ ((unused)))
 {
-	int k;
 
-	for (k = 0; environ[k]; k++)
+	int i;
+
+	for (i = 0; environ[i]; i++)
 	{
-		puts_func(environ[k]);
+		puts_func(environ[i]);
 		puts_func("\n");
 	}
+
 }
 
 /**
- * set_env_func - function that sets a new environment variable
- *
- * @arv: the array
+ * set_env_func - Initialize a new environment variable, or modify an existing one
+ * @arv: array of entered words
  */
 void set_env_func(char **arv)
 {
-	int a, b, c;
+	int i, j, k;
 
 	if (!arv[1] || !arv[2])
 	{
@@ -85,73 +80,73 @@ void set_env_func(char **arv)
 		return;
 	}
 
-	for (a = 0; environ[a]; a++)
+	for (i = 0; environ[i]; i++)
 	{
-		b = 0;
-		if (arv[1][b] == environ[a][b])
+		j = 0;
+		if (arv[1][j] == environ[i][j])
 		{
-			while (arv[1][b])
+			while (arv[1][j])
 			{
-				if (arv[1][b] != environ[a][b])
+				if (arv[1][j] != environ[i][j])
 					break;
 
-				b++;
+				j++;
 			}
-			if (arv[1][b] == '\0')
+			if (arv[1][j] == '\0')
 			{
-				c = 0;
-				while (arv[2][c])
+				k = 0;
+				while (arv[2][k])
 				{
-					environ[a][b + 1 + c] = arv[2][c];
-					c++;
+					environ[i][j + 1 + k] = arv[2][k];
+					k++;
 				}
-				environ[a][b + 1 + c] = '\0';
+				environ[i][j + 1 + k] = '\0';
 				return;
 			}
 		}
 	}
-	if (!environ[a])
+	if (!environ[i])
 	{
-	  environ[a] = all_func(arv[1], "=", arv[2]);
-	  environ[a + 1] = '\0';
+
+		environ[i] = all_func(arv[1], "=", arv[2]);
+		environ[i + 1] = '\0';
 
 	}
 }
 
 /**
- * u_setenv_func - function that removes an environment variable
- *
- * @arv: the array
+ * u_setenv_func - Remove an environment variable
+ * @arv: array of entered words
  */
 void u_setenv_func(char **arv)
 {
-	int a, b;
+	int i, j;
 
 	if (!arv[1])
 	{
 		perror(get_env_func("_"));
 		return;
 	}
-	for (a = 0; environ[a]; a++)
+	for (i = 0; environ[i]; i++)
 	{
-		b = 0;
-		if (arv[1][b] == environ[a][b])
+		j = 0;
+		if (arv[1][j] == environ[i][j])
 		{
-			while (arv[1][b])
+			while (arv[1][j])
 			{
-				if (arv[1][b] != environ[a][b])
+				if (arv[1][j] != environ[i][j])
 					break;
 
-				b++;
+				j++;
 			}
-			if (arv[1][b] == '\0')
+			if (arv[1][j] == '\0')
 			{
-				free(environ[a]);
-				environ[a] = environ[a + 1];
-				while (environ[a])
+				free(environ[i]);
+				environ[i] = environ[i + 1];
+				while (environ[i])
 				{
-					environ[a] = environ[a + 1];
-					a++;
+					environ[i] = environ[i + 1];
+					i++;
 				}
 				return;
 			}
