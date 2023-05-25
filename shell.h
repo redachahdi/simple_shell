@@ -1,65 +1,80 @@
-#ifndef MAIN_H
-#define MAIN_H
-
+#ifndef _SHELL_H_
+#define _SHELL_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <sys/wait.h>
 #include <sys/types.h>
-#include <errno.h>
-#include <stddef.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <limits.h>
 #include <signal.h>
 
-int _putchar(char c);
-void puts_func(char *str);
-int strlen_func(char *s);
-char *strdup_func(char *str);
-char *all_func(char *name, char *sep, char *value);
-char **to_split_str_func(char *str, const char *delim);
-void execute(char **argv);
-void *realloc_func(void *ptr, unsigned int old_size, unsigned int new_size);
-
-extern char **environ;
-
-
 /**
- * struct list_path - Linked list containing PATH
- * @dir: The directory in PATH
- * @p: Pointer to the next node
+ * struct variables - variables
+ * @av: command line arguments
+ * @buffer: buffer of command
+ * @env: environment variables
+ * @count: count of commands entered
+ * @argv: arguments at opening of shell
+ * @status: exit status
+ * @commands: commands to execute
  */
-typedef struct list_path
+typedef struct variables
 {
-	char *dir;
-	struct list_path *p;
-} list_path;
-
-char *get_env_func(const char *name);
-list_path *add_node_end_func(list_path **head, char *str);
-list_path *linkpath(char *path);
-char *fil_which_func(char *filename, list_path *head);
+	char **av;
+	char *buffer;
+	char **env;
+	size_t count;
+	char **argv;
+	int status;
+	char **commands;
+} vars_t;
 
 /**
- * struct ourbuild - Function that builds the shell
- * @name: The name of the function
- * @func: Pointer to the function
+ * struct builtins - struct for the builtin functions
+ * @name: name of builtin command
+ * @f: function for corresponding builtin
  */
-typedef struct ourbuild
+typedef struct builtins
 {
 	char *name;
-	void (*func)(char **);
-} ourbuild;
+	void (*f)(vars_t *);
+} builtins_t;
 
-void (*built_check_func(char **arv))(char **arv);
-int atoi_func(char *s);
-void exit_func(char **arv);
-void envir_func(char **arv);
-void u_setenv_func(char **arv);
-void set_env_func(char **arv);
-void fre_arv_func(char **arv);
-void list_free_func(list_path *head);
+char **r_make_env_func(char **env);
+void r_free_env_func(char **env);
 
+ssize_t _puts_func(char *str);
+char *_strdup_func(char *strtodup);
+int _strcmpr_func(char *strcmp1, char *strcmp2);
+char *_strcat_func(char *strc1, char *strc2);
+unsigned int _strlen_func(char *str);
+
+char **r_tokenize_func(char *buffer, char *delimiter);
+char **_realloc_func(char **ptr, size_t *size);
+char *r_new_strtok_func(char *str, const char *delim);
+
+void (*check_for_builtins(vars_t *vars))(vars_t *vars);
+void r_new_exit_func(vars_t *vars);
+void _env_func(vars_t *vars);
+void r_new_setenv_func(vars_t *vars);
+void r_new_unsetenv_func(vars_t *vars);
+
+void r_add_key_func(vars_t *vars);
+char **r_find_key_func(char **env, char *key);
+char *r_add_value_func(char *key, char *value);
+int _atoi_func(char *str);
+
+void r_check_for_path_func(vars_t *vars);
+int r_path_execute_func(char *command, vars_t *vars);
+char *r_find_path_func(char **env);
+int r_execute_cwd_func(vars_t *vars);
+int r_check_for_dir_func(char *str);
+
+void r_print_error_func(vars_t *vars, char *msg);
+void _puts2_func(char *str);
+char *_uitoa_func(unsigned int count);
 
 #endif
