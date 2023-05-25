@@ -1,10 +1,12 @@
 #include "shell.h"
 
 /**
- * add_key - create a new environment variable
- * @vars: pointer to struct of variables
- *
- * Return: void
+ * r_add_key_func - function that create environment variable
+ * 
+ * @vars: is a pointer to struct of variables
+ * 
+ * Return: 0
+ * 
  */
 void r_add_key_func(vars_t *vars)
 {
@@ -39,11 +41,13 @@ void r_add_key_func(vars_t *vars)
 }
 
 /**
- * find_key - finds an environment variable
- * @env: array of environment variables
- * @key: environment variable to find
+ * r_find_key_func - function that finds an environment variable
+ * 
+ * @env: is an array of environment variables
+ * @key: is an environment variable to find
  *
- * Return: pointer to address of the environment variable
+ * Return: address
+ * 
  */
 char **r_find_key_func(char **env, char *key)
 {
@@ -64,11 +68,13 @@ char **r_find_key_func(char **env, char *key)
 }
 
 /**
- * add_value - create a new environment variable string
- * @key: variable name
- * @value: variable value
+ * r_add_value_func - function that create environment variable string
+ * 
+ * @key: is a variable name
+ * @value: is a variable value
  *
- * Return: pointer to the new string;
+ * Return: new string
+ * 
  */
 char *r_add_value_func(char *key, char *value)
 {
@@ -93,10 +99,12 @@ char *r_add_value_func(char *key, char *value)
 }
 
 /**
- * _atoi - converts a string into an integer
- * @str: string to convert
+ * _atoi_func - function that converts string into integer
+ * 
+ * @str: is a string to convert
  *
- * Return: the integer value, or -1 if an error occurs
+ * Return: integer value or -1
+ * 
  */
 int _atoi_func(char *str)
 {

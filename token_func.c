@@ -1,11 +1,13 @@
 #include "shell.h"
 
 /**
- * tokenize - tokenizes a buffer with a delimiter
- * @buffer: buffer to tokenize
- * @delimiter: delimiter to tokenize along
+ * r_tokenize_func - function tokenizes the buffer with a delimiter
+ * 
+ * @buffer: is a buffer to tokenize
+ * @delimiter: is a delimiter to tokenize along
  *
- * Return: pointer to an array of pointers to the tokens
+ * Return: array or tokens
+ * 
  */
 char **r_tokenize_func(char *buffer, char *delimiter)
 {

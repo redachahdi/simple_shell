@@ -1,10 +1,12 @@
 #include "shell.h"
 /**
- * check_match - checks if a character matches any in a string
- * @c: character to check
- * @str: string to check
+ * r_check_match_func - function that checks if character matches any in string
+ * 
+ * @c: is a character to check
+ * @str: is a string to check
  *
- * Return: 1 if match, 0 if not
+ * Return: 1 match or 0 not
+ * 
  */
 unsigned int r_check_match_func(char c, const char *str)
 {
@@ -19,11 +21,13 @@ unsigned int r_check_match_func(char c, const char *str)
 }
 
 /**
- * new_strtok - custom strtok
- * @str: string to tokenize
- * @delim: delimiter to tokenize against
- *
- * Return: pointer to the next token or NULL
+ * r_new_strtok_func - function that custom strtok
+ * 
+ * @str: is a string to tokenize
+ * @delim: is a delimiter to tokenize against
+ * 
+ * Return: next token or NULL
+ * 
  */
 char *r_new_strtok_func(char *str, const char *delim)
 {
