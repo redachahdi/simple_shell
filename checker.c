@@ -32,5 +32,5 @@ void(*built_check_func(char **arv))(char **arv)
 				return (T[i].func);
 		}
 	}
-	return (0);
+	return(0);
 }
