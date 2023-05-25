@@ -31,8 +31,8 @@ void _EOF_(int len, char *buff)
 		if (isatty(STDIN_FILENO))
 		{
 			puts_func("\n");
-			free(buff);
 		}
+		free(buff);
 		exit(0);
 	}
 }
@@ -45,6 +45,22 @@ void _isatty(void)
 {
 	if (isatty(STDIN_FILENO))
 		puts_func("$ ");
+}
+
+/**
+ * cleanup - function that performs memory cleanup
+ *
+ * @head: the linked list head
+ * @arv: the argument array
+ * @buff: the buffer
+ *
+ * Return: is void
+ */
+void cleanup(list_path *head, char **arv, char *buff)
+{
+	list_free_func(head);
+	fre_arv_func(arv);
+	free(buff);
 }
 /**
  * main - functui of the Shell
@@ -66,8 +82,11 @@ int main(void)
 		len = getline(&buff, &size, stdin);
 		_EOF_(len, buff);
 		arv = to_split_str_func(buff, " \n");
-		if (!arv || !arv[0])
-			execute(arv);
+if (!arv || !arv[0])
+{
+free(buff);
+continue;
+}
 		else
 		{
 			value = get_env_func("PATH");
@@ -89,8 +108,5 @@ int main(void)
 			}
 		}
 	}
-	list_free_func(head);
-	fre_arv_func(arv);
-	free(buff);
-	return (0);
-}
+	cleanup(head, arv, buff);
+	return (0); }
