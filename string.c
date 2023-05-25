@@ -19,6 +19,7 @@ char *strdup_func(char *str)
 	{
 		l++;
 	}
+
 	new = malloc(sizeof(char) * l + 1);
 	if (!new)
 	{
@@ -29,6 +30,7 @@ char *strdup_func(char *str)
 		new[i] = str[i];
 	}
 	new[l] = str[l];
+
 	return (new);
 }
 

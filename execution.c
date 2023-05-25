@@ -24,6 +24,7 @@ char **to_split_str_func(char *str, const char *delim)
 		perror(get_env_func("_"));
 		return (NULL);
 	}
+
 	i = 0;
 	while (str[i])
 	{
@@ -41,14 +42,18 @@ char **to_split_str_func(char *str, const char *delim)
 	while (token)
 	{
 		token = strtok(NULL, delim);
+if (token)
+{
 array = realloc_func(array, (sizeof(char *) * (w - 1)), (sizeof(char *) * w));
-		array[i] = strdup_func(token);
-		i++;
-		w++;
+			array[i] = strdup_func(token);
+			i++;
+			w++;
+		}
 	}
 	free(copy);
 	return (array);
 }
+
 
 /**
  * execute - function that executes the  command

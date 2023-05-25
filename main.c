@@ -10,7 +10,7 @@ void _sig_handler(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
-		puts_func("\n#cisfun$ ");
+		puts_func("\n$ ");
 	}
 }
 
@@ -44,7 +44,7 @@ void _EOF_(int len, char *buff)
 void _isatty(void)
 {
 	if (isatty(STDIN_FILENO))
-		puts_func("#cisfun$ ");
+		puts_func("$ ");
 }
 /**
  * main - functui of the Shell
