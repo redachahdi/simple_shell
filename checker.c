@@ -9,7 +9,7 @@
 */
 void(*built_check_func(char **arv))(char **arv)
 {
-	int i, j;
+	int i,j;
 	ourbuild T[] = {
 		{"exit", exit_func},
 		{"env", envir_func},
