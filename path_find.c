@@ -1,13 +1,14 @@
 #include "shell.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 /**
- * r_path_execute_func - function that executes the command
- * 
+ * r_path_execute_func - is the function that executes the command
+ *
  * @command: is the full path to the command
  * @vars: is the pointer to struct of variables
- * 
- * Return: 0 succcess or 1 failure
- * 
+ *
+ * Return: is 0 succcess or 1 failure
+ *
  */
 int r_path_execute_func(char *command, vars_t *vars)
 {
@@ -44,12 +45,12 @@ int r_path_execute_func(char *command, vars_t *vars)
 }
 
 /**
- * r_find_path_func - function that finds PATH
- * 
+ * r_find_path_func - is the function that finds path
+ *
  * @env: is an array of environment variables
- * 
- * Return: node that contains the PATH or NULL on failure
- * 
+ *
+ * Return: is the node that contains the null or path
+ *
  */
 char *r_find_path_func(char **env)
 {
@@ -70,12 +71,12 @@ char *r_find_path_func(char **env)
 }
 
 /**
- * r_check_for_path_func - function that checks if the command is in the PATH
- * 
- * @vars: is variables
- * 
+ * r_check_for_path_func - is the function that checks if the commd path
+ *
+ * @vars: is the variables
+ *
  * Return: 0
- * 
+ *
  */
 void r_check_for_path_func(vars_t *vars)
 {
@@ -122,12 +123,12 @@ void r_check_for_path_func(vars_t *vars)
 		r_new_exit_func(vars); }
 
 /**
- * r_execute_cwd_func - function executes the command
- * 
+ * r_execute_cwd_func - is the function that executes the command
+ *
  * @vars: is a pointer to struct of variables
- * 
- * Return: 0 success or 1 failure
- * 
+ *
+ * Return: if the  0 success or 1 failure
+ *
  */
 int r_execute_cwd_func(vars_t *vars)
 {
@@ -171,12 +172,12 @@ int r_execute_cwd_func(vars_t *vars)
 }
 
 /**
- * r_check_for_dir_func - function that checks the command is a part of a path
- * 
+ * r_check_for_dir_func - is the function that checks the command path
+ *
  * @str: is a command
  *
  * Return: 1 success or 0 failure
- * 
+ *
  */
 int r_check_for_dir_func(char *str)
 {

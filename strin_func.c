@@ -1,12 +1,13 @@
 #include "shell.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 /**
- * _puts_func - function that writes the string
- * 
+ * _puts_func - is the function that writes the string
+ *
  * @str: is a string to write
  *
  * Return: number of chars or -1
- * 
+ *
  */
 ssize_t _puts_func(char *str)
 {
@@ -23,11 +24,12 @@ ssize_t _puts_func(char *str)
 }
 
 /**
- * _strdup_func - function that returns pointer to new malloc space
- * 
+ * _strdup_func - is the function that returns pointer to new malloc space
+ *
  * @strtodup: is a string to be duplicated
- * Return: new duplicated string
- * 
+ *
+ * Return: is new string
+ *
  */
 char *_strdup_func(char *strtodup)
 {
@@ -50,12 +52,13 @@ char *_strdup_func(char *strtodup)
 }
 
 /**
- * _strcmpr_func - function that compares two strings
- * 
+ * _strcmpr_func - is the function that compares two strings
+ *
  * @strcmp1: is the first string, of two, to be compared in length
  * @strcmp2: is the second string, of two, to be compared
- * Return: 0 anything else is a failure
- * 
+ *
+ * Return: is the 0
+ *
  */
 int _strcmpr_func(char *strcmp1, char *strcmp2)
 {
@@ -72,12 +75,13 @@ int _strcmpr_func(char *strcmp1, char *strcmp2)
 }
 
 /**
- * _strcat_func - function that concatenates two strings
- * 
+ * _strcat_func - is the function that concatenates two strings
+ *
  * @strc1: is the first string
  * @strc2: is the second string
- * Return: pointer
- * 
+ *
+ * Return: is the pointer
+ *
  */
 char *_strcat_func(char *strc1, char *strc2)
 {
@@ -115,11 +119,11 @@ char *_strcat_func(char *strc1, char *strc2)
 }
 
 /**
- * _strlen_func - function that returns the length of a string
- * 
+ * _strlen_func - is the function that returns the length of a string
+ *
  * @str: is a string to be measured
  * Return: length of string
- * 
+ *
  */
 unsigned int _strlen_func(char *str)
 {

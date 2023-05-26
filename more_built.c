@@ -1,12 +1,13 @@
 #include "shell.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 /**
- * r_add_key_func - function that create environment variable
- * 
+ * r_add_key_func - is the function that create environment variable
+ *
  * @vars: is a pointer to struct of variables
- * 
- * Return: 0
- * 
+ *
+ * Return: is the 0
+ *
  */
 void r_add_key_func(vars_t *vars)
 {
@@ -41,40 +42,40 @@ void r_add_key_func(vars_t *vars)
 }
 
 /**
- * r_find_key_func - function that finds an environment variable
- * 
+ * r_find_key_func - is the function that finds an environment variable
+ *
  * @env: is an array of environment variables
  * @key: is an environment variable to find
  *
- * Return: address
- * 
+ * Return: is the address
+ *
  */
 char **r_find_key_func(char **env, char *key)
 {
 	unsigned int i;
-	unsigned int j;
+	unsigned int k;
 	unsigned int len;
 
 	len = _strlen_func(key);
 	for (i = 0; env[i] != NULL; i++)
 	{
-		for (j = 0; j < len; j++)
-			if (key[j] != env[i][j])
+		for (k = 0; k < len; k++)
+			if (key[k] != env[i][k])
 				break;
-		if (j == len && env[i][j] == '=')
+		if (k == len && env[i][k] == '=')
 			return (&env[i]);
 	}
 	return (NULL);
 }
 
 /**
- * r_add_value_func - function that create environment variable string
- * 
+ * r_add_value_func - is the function that create environment variable string
+ *
  * @key: is a variable name
  * @value: is a variable value
  *
- * Return: new string
- * 
+ * Return: is the new string
+ *
  */
 char *r_add_value_func(char *key, char *value)
 {
@@ -99,12 +100,12 @@ char *r_add_value_func(char *key, char *value)
 }
 
 /**
- * _atoi_func - function that converts string into integer
- * 
+ * _atoi_func - is the function that converts string into integer
+ *
  * @str: is a string to convert
  *
- * Return: integer value or -1
- * 
+ * Return: is the integer value or -1
+ *
  */
 int _atoi_func(char *str)
 {
