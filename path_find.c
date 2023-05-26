@@ -55,18 +55,18 @@ int r_path_execute_func(char *command, vars_t *vars)
 char *r_find_path_func(char **env)
 {
 	char *path = "PATH=";
-	unsigned int i;
+	unsigned int kk;
 	unsigned int j;
 
-	for (i = 0; env[i] != NULL; i++)
+	for (kk = 0; env[kk] != NULL; kk++)
 	{
 		for (j = 0; j < 5; j++)
-			if (path[j] != env[i][j])
+			if (path[j] != env[kk][j])
 				break;
 		if (j == 5)
 			break;
 	}
-	return (env[i]);
+	return (env[kk]);
 
 }
 
@@ -83,12 +83,12 @@ void r_check_for_path_func(vars_t *vars)
 	char *path;
 	char *path_dup = NULL, *check = NULL;
 	unsigned int i = 0;
-	unsigned int r = 0;
+	unsigned int k = 0;
 	char **path_tokens;
 	struct stat buf;
 
 	if (r_check_for_dir_func(vars->av[0]))
-		r = r_execute_cwd_func(vars);
+		k = r_execute_cwd_func(vars);
 	else
 	{
 		path = r_find_path_func(vars->env);
@@ -101,7 +101,7 @@ void r_check_for_path_func(vars_t *vars)
 				check = _strcat_func(path_tokens[i], vars->av[0]);
 				if (stat(check, &buf) == 0)
 				{
-					r = r_path_execute_func(check, vars);
+					k = r_path_execute_func(check, vars);
 					free(check);
 					break;
 				}
@@ -119,7 +119,7 @@ void r_check_for_path_func(vars_t *vars)
 			vars->status = 127;
 		}		free(path_tokens);
 	}
-	if (r == 1)
+	if (k == 1)
 		r_new_exit_func(vars); }
 
 /**

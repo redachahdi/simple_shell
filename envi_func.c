@@ -12,19 +12,19 @@
 char **r_make_env_func(char **env)
 {
 	char **newenv = NULL;
-	size_t i;
+	size_t k;
 
-	for (i = 0; env[i] != NULL; i++)
+	for (k = 0; env[k] != NULL; k++)
 		;
-	newenv = malloc(sizeof(char *) * (i + 1));
+	newenv = malloc(sizeof(char *) * (k + 1));
 	if (newenv == NULL)
 	{
 		perror("Fatal Error");
 		exit(1);
 	}
-	for (i = 0; env[i] != NULL; i++)
-		newenv[i] = _strdup_func(env[i]);
-	newenv[i] = NULL;
+	for (k = 0; env[k] != NULL; k++)
+		newenv[k] = _strdup_func(env[k]);
+	newenv[k] = NULL;
 	return (newenv);
 }
 
@@ -38,9 +38,9 @@ char **r_make_env_func(char **env)
  */
 void r_free_env_func(char **env)
 {
-	unsigned int i;
+	unsigned int k;
 
-	for (i = 0; env[i] != NULL; i++)
-		free(env[i]);
+	for (k = 0; env[k] != NULL; k++)
+		free(env[k]);
 	free(env);
 }

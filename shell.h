@@ -1,15 +1,16 @@
 #ifndef _SHELL_H_
 #define _SHELL_H_
 
+#include <sys/wait.h>
+#include <limits.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/wait.h>
-#include <limits.h>
-#include <signal.h>
+
 
 /**
  * struct variables - is the variables
@@ -47,6 +48,9 @@ typedef struct builtins
 	void (*f)(vars_t *);
 } builtins_t;
 
+/*
+ * all function simple shell
+ */
 char **r_make_env_func(char **env);
 void r_free_env_func(char **env);
 ssize_t _puts_func(char *str);

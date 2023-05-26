@@ -79,15 +79,15 @@ char **r_find_key_func(char **env, char *key)
  */
 char *r_add_value_func(char *key, char *value)
 {
-	unsigned int len1;
-	unsigned int len2;
+	unsigned int _len1;
+	unsigned int _len2;
 	unsigned int i;
 	unsigned int j;
 	char *new;
 
-	len1 = _strlen_func(key);
-	len2 = _strlen_func(value);
-	new = malloc(sizeof(char) * (len1 + len2 + 2));
+	_len1 = _strlen_func(key);
+	_len2 = _strlen_func(value);
+	new = malloc(sizeof(char) * (_len1 + _len2 + 2));
 	if (new == NULL)
 		return (NULL);
 	for (i = 0; key[i] != '\0'; i++)
