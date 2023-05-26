@@ -116,12 +116,10 @@ void r_check_for_path_func(vars_t *vars)
 		{
 			r_print_error_func(vars, ": not found\n");
 			vars->status = 127;
-		}
-		free(path_tokens);
+		}		free(path_tokens);
 	}
 	if (r == 1)
-		r_new_exit_func(vars);
-}
+		r_new_exit_func(vars); }
 
 /**
  * r_execute_cwd_func - function executes the command

@@ -34,7 +34,7 @@ char *_strdup_func(char *strtodup)
 	char *copy;
 
 	int len;
-       int i;
+	int i;
 
 	if (strtodup == 0)
 		return (NULL);

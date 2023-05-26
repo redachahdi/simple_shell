@@ -70,3 +70,4 @@ int main(int argc __attribute__((unused)), char **argv, char **environment)
 	free(vars.buffer);
 	exit(vars.status);
 }
+
